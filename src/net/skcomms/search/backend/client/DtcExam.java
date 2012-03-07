@@ -65,6 +65,7 @@ public class DtcExam implements EntryPoint {
 						.getSelectedObject();
 				if (selected != null) {
 					// Window.alert("You selected: " + selected);
+					KimAlert.alert("You selecter: " + selected.getName() + " \n in " + selected.getCategory() + " Category");
 				}
 			}
 		});
@@ -79,6 +80,7 @@ public class DtcExam implements EntryPoint {
 						.getSelectedObject();
 				if (selected != null) {
 					// Window.alert("You selected: " + selected);
+					KimAlert.alert("You selected: " + selected.Categoryname);
 				}
 			}
 		});
@@ -382,7 +384,7 @@ public class DtcExam implements EntryPoint {
 							sb.appendEscaped(value.getCategoryName());
 						}
 					};
-					return new DefaultNodeInfo<CategoryNode>(rootProvider, cell);
+					return new DefaultNodeInfo<CategoryNode>(rootProvider, cell, SELECTION_MODEL2, null);
 				}
 				else if (value instanceof CategoryNode) {
 					String CategoryName = ((CategoryNode) value).getCategoryName();
@@ -395,7 +397,7 @@ public class DtcExam implements EntryPoint {
 						provider.getList().addAll(((CategoryNode) value).getContactInfos());
 						dataProviderMap.put(CategoryName, provider);
 					}				
-					return new DefaultNodeInfo<ContactInfo>(provider, ContactInfoCell.getInstance());
+					return new DefaultNodeInfo<ContactInfo>(provider, ContactInfoCell.getInstance(), SELECTION_MODEL, null);
 				}
 				return null;
 			}
@@ -456,15 +458,22 @@ public class DtcExam implements EntryPoint {
 				treeViewModel.add(contactInfo);
 				treeViewModel.addProvider(contactInfo);
 				treeViewModel.refresh();
+				/*
 				treeViewModel.selectionModel.isSelected(categorynodes.get(treeViewModel.getIndex(contactInfo.getCategory())));
 				if (!browser.getRootTreeNode().isChildOpen(treeViewModel.getIndex(contactInfo.getCategory()))) {
 					browser.getRootTreeNode().setChildOpen(treeViewModel.getIndex(contactInfo.getCategory()), true);
-				} 				
+				} 
+				*/				
 			}
 		};
 		
 		widgetDataMap.put(browser, box);
 		stackLayoutPanel.add(browser, header, 2);
+	}
+	public static class KimAlert {
+		public native static void alert(String msg) /*-{
+		$wnd.alert(msg);
+		}-*/;
 	}
 
 	/**
